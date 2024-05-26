@@ -36,21 +36,6 @@ autocmd("BufEnter", {
   desc = "Disable Fold & StatusColumn",
 })
 
--- Remove this if there's an issue
-autocmd({ "BufReadPost", "BufNewFile" }, {
-  once = true,
-  callback = function()
-    -- In wsl 2, just install xclip
-    -- Ubuntu
-    -- sudo apt install xclip
-    -- Arch linux
-    -- sudo pacman -S xclip
-    vim.opt.clipboard = "unnamedplus" -- allows neovim to access the system clipboard
-  end,
-  group = general,
-  desc = "Lazy load clipboard",
-})
-
 autocmd("TermOpen", {
   callback = function()
     vim.opt_local.relativenumber = false
@@ -71,48 +56,12 @@ autocmd("BufReadPost", {
   desc = "Go To The Last Cursor Position",
 })
 
-autocmd("TextYankPost", {
-  callback = function()
-    require("vim.highlight").on_yank { higroup = "Visual", timeout = 200 }
-  end,
-  group = general,
-  desc = "Highlight when yanking",
-})
-
-autocmd({ "BufEnter", "BufNewFile" }, {
-  callback = function()
-    vim.o.showtabline = 0
-  end,
-  group = general,
-  desc = "Disable Tabline",
-})
-
 autocmd("BufEnter", {
   callback = function()
     vim.opt.formatoptions:remove { "c", "r", "o" }
   end,
   group = general,
   desc = "Disable New Line Comment",
-})
-
-autocmd("FileType", {
-  pattern = { "c", "cpp", "py", "java", "cs" },
-  callback = function()
-    vim.bo.shiftwidth = 4
-  end,
-  group = general,
-  desc = "Set shiftwidth to 4 in these filetypes",
-})
-
-autocmd({ "FocusLost", "BufLeave", "BufWinLeave", "InsertLeave" }, {
-  -- nested = true, -- for format on save
-  callback = function()
-    if vim.bo.filetype ~= "" and vim.bo.buftype == "" then
-      vim.cmd "silent! w"
-    end
-  end,
-  group = general,
-  desc = "Auto Save",
 })
 
 autocmd("FocusGained", {
@@ -131,18 +80,6 @@ autocmd("VimResized", {
   desc = "Equalize Splits",
 })
 
-autocmd("ModeChanged", {
-  callback = function()
-    if fn.getcmdtype() == "/" or fn.getcmdtype() == "?" then
-      vim.opt.hlsearch = true
-    else
-      vim.opt.hlsearch = false
-    end
-  end,
-  group = general,
-  desc = "Highlighting matched words when searching",
-})
-
 autocmd("FileType", {
   pattern = { "gitcommit", "markdown", "text", "log" },
   callback = function()
@@ -151,6 +88,16 @@ autocmd("FileType", {
   end,
   group = general,
   desc = "Enable Wrap in these filetypes",
+})
+
+autocmd("FileType", {
+    -- c/c++
+  pattern = { "c", "cpp" },
+  callback = function()
+    vim.keymap.set("n", "<leader>lH", "<cmd>ClangdSwitchSourceHeader<cr>", { desc = "LSP | Switch Source/Header", silent = true })
+  end,
+  group = general,
+  desc = "Keymap to switch between Source/Header",
 })
 
 local overseer = augroup("Overseer", { clear = true })

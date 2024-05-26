@@ -16,17 +16,30 @@ return {
   end,
   opts = function()
     cmp.setup.cmdline(":", {
-      mapping = cmp.mapping.preset.cmdline(),
       sources = {
         { name = "cmdline" },
       },
     })
   end,
   config = function(_, opts)
-    table.insert(opts.sources, 2, { name = "codeium" })
-    opts.mapping = vim.tbl_extend("force", {}, opts.mapping, {
-      -- You can add here new mappings.
-    })
+    table.insert(opts.sources, 2, { name = "copilot" })
+    table.insert(opts.sources, 3, { name = "nvim_lsp_signature_help" })
+    opts.mapping = {
+        ['<C-Space>'] = cmp.mapping.complete(),
+        ['<tab>'] = cmp.mapping.confirm({ select = true }),
+        ['<C-j>'] = cmp.mapping.select_next_item(),
+        ['<C-k>'] = cmp.mapping.select_prev_item(),
+    }
+    opts.window = {
+      completion = {
+        border = 'rounded',
+        winhighlight = "Normal:Pmenu,FloatBorder:Pmenu,CursorLine:PmenuSel,Search:None",
+      },
+      documentation = {
+        border = 'rounded',
+        winhighlight = "Normal:Pmenu,FloatBorder:Pmenu,CursorLine:PmenuSel,Search:None",
+      },
+    }
     opts.enabled = function()
       return (vim.g.toggle_cmp and vim.bo.buftype == "")
     end
@@ -52,12 +65,31 @@ return {
     },
     -- AI Autocomplete
     {
-      "Exafunction/codeium.nvim",
-      opts = {},
+      'zbirenbaum/copilot.lua',
+      cmd = 'Copilot',
+      event = 'InsertEnter',
+      opts = {
+        suggestion = {
+          enabled = false,
+        },
+        panel = {
+          enabled = false,
+        }
+      }
+    },
+    {
+      "zbirenbaum/copilot-cmp",
+      config = function ()
+        require("copilot_cmp").setup()
+      end
     },
     {
       "L3MON4D3/LuaSnip",
       dependencies = "rafamadriz/friendly-snippets",
     },
+    -- Display function signature
+    {
+      "hrsh7th/cmp-nvim-lsp-signature-help",
+    }
   },
 }

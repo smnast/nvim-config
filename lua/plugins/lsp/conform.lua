@@ -1,6 +1,6 @@
 local formatters = {
   lua = { "stylua" },
-  python = { "autopep8" },
+  python = { "black" },
   cpp = { "clang_format" },
   c = { "clang_format" },
   go = { "gofumpt" },

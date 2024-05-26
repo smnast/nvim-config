@@ -105,7 +105,7 @@ return {
 
     opts.defaults.path_display = { "smart" }
     opts.defaults.file_ignore_patterns = { "node_modules", ".git" }
-    opts.extensions_list = { "themes", "terms", "fzf", "projects", "harpoon", "flutter" }
+    opts.extensions_list = { "themes", "terms", "fzf", "projects" }
 
     opts.defaults.mappings.i = {
       ["<Tab>"] = actions.move_selection_next,

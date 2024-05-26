@@ -3,204 +3,58 @@ local fn = vim.fn
 local cwd = vim.fn.stdpath "config" .. "/"
 local config_dir = { cwd }
 
--- Remove All Text
-vim.keymap.set("n", "<leader>R", "<cmd>%d+<cr>", { desc = "General | Remove All Text", silent = true })
-
--- Yank All Text
+-- Yank & delete all text
+vim.keymap.set("n", "<leader>D", "<cmd>%d<cr>", { desc = "General | Delete All Text", silent = true })
 vim.keymap.set("n", "<leader>y", "<cmd>%y+<cr>", { desc = "General | Yank All Text", silent = true })
 
--- Quit
+-- Clear search highlighting
+vim.keymap.set("n", "<esc>", "<cmd>noh<cr>", { desc = "General | Clear search highlighting", silent = true })
+
+-- Save & quit
+vim.keymap.set('n', '<c-S>', ':w<CR>', { desc = "General | Save File", silent = true })
 vim.keymap.set("n", "<leader>q", "<cmd>qa!<cr>", { desc = "General | Quit", silent = true })
-
--- Close Buffer
 vim.keymap.set("n", "<leader>c", "<cmd>Bdelete!<cr>", { desc = "General | Close Buffer", silent = true })
+vim.keymap.set("n", "<leader>w", function()
+    require("nvchad.tabufline").close_buffer()
+end, { desc = "General | Close Tabufline Buffer", silent = true })
 
--- Toggle Tabufline
-vim.keymap.set("n", "<leader>ob", function()
-  if vim.o.showtabline == 2 then
-    vim.o.showtabline = 0
-    vim.notify("Toggled Off", vim.log.levels.INFO, { title = "Tabufline" })
-  else
-    vim.o.showtabline = 2
-    vim.notify("Toggled On", vim.log.levels.INFO, { title = "Tabufline" })
-  end
-end, { desc = "Options | Toggle Tabufline", silent = true })
+-- Inverse tab
+vim.keymap.set('i', '<S-Tab>', '<C-d>', { desc = "General | Inverse tab", silent = true })
 
--- Toggle Statusline
-vim.keymap.set("n", "<leader>os", function()
-  if vim.o.laststatus == 3 then
-    vim.o.laststatus = 0
-    vim.notify("Toggled Off", vim.log.levels.INFO, { title = "Statusline" })
-  else
-    vim.o.laststatus = 3
-    vim.notify("Toggled On", vim.log.levels.INFO, { title = "Statusline" })
-  end
-end, { desc = "Options | Toggle Statusline", silent = true })
-
--- Toggle Line Number
-vim.keymap.set("n", "<leader>ol", function()
-  vim.o.number = not vim.o.number
-  if vim.o.number then
-    vim.notify("Toggled On", vim.log.levels.INFO, { title = "Line Number" })
-  else
-    vim.notify("Toggled Off", vim.log.levels.INFO, { title = "Line Number" })
-  end
-end, { desc = "Options | Toggle Line Number", silent = true })
-
--- Toggle Relative Number
-vim.keymap.set("n", "<leader>or", function()
-  vim.o.relativenumber = not vim.o.relativenumber
-  if vim.o.relativenumber then
-    vim.notify("Toggled On", vim.log.levels.INFO, { title = "Relative Number" })
-  else
-    vim.notify("Toggled Off", vim.log.levels.INFO, { title = "Relative Number" })
-  end
-end, { desc = "Options | Toggle Relative Number", silent = true })
-
--- Toggle Theme
-vim.keymap.set("n", "<leader>ot", function()
-  vim.g.switch_theme = not vim.g.switch_theme
-  require("base46").toggle_theme()
-  if vim.g.switch_theme then
-    vim.notify("Light Mode", vim.log.levels.INFO, { title = "Theme" })
-  else
-    vim.notify("Dark Mode", vim.log.levels.INFO, { title = "Theme" })
-  end
-end, { desc = "Options | Toggle Theme", silent = true })
-
--- Toggle Transparency
-vim.keymap.set("n", "<leader>oT", function()
-  vim.g.transparency_enabled = not vim.g.transparency_enabled
-  require("base46").toggle_transparency()
-  if vim.g.transparency_enabled then
-    vim.notify("Toggled On", vim.log.levels.INFO, { title = "Transparency" })
-  else
-    vim.notify("Toggled Off", vim.log.levels.INFO, { title = "Transparency" })
-  end
-end, { desc = "Options | Toggle Transparency", silent = true })
-
--- Toggle Wrap
-vim.keymap.set("n", "<leader>ow", function()
-  vim.o.wrap = not vim.o.wrap
-  if vim.o.wrap then
-    vim.notify("Toggled On", vim.log.levels.INFO, { title = "Line Wrap" })
-  else
-    vim.notify("Toggled Off", vim.log.levels.INFO, { title = "Line Wrap" })
-  end
-end, { desc = "Options | Toggle Wrap", silent = true })
-
--- Better Down
-vim.keymap.set("n", "j", "v:count == 0 ? 'gj' : 'j'", { desc = "General | Better Down", expr = true, silent = true })
-
--- Better Up
-vim.keymap.set("n", "k", "v:count == 0 ? 'gk' : 'k'", { desc = "General | Better Up", expr = true, silent = true })
-
--- Go to upper window
+-- Move between windows
 vim.keymap.set("n", "<C-j>", "<C-w>j", { desc = "General | Go to upper window", silent = true })
-
--- Go to lower window
 vim.keymap.set("n", "<C-k>", "<C-w>k", { desc = "General | Go to lower window", silent = true })
-
--- Go to left window
 vim.keymap.set("n", "<C-h>", "<C-w>h", { desc = "General | Go to left window", silent = true })
-
--- Go to right window
 vim.keymap.set("n", "<C-l>", "<C-w>l", { desc = "General | Go to right window", silent = true })
 
--- Close window
-vim.keymap.set("n", "<leader>w", function()
-  if vim.bo.buftype == "terminal" then
-    vim.cmd "Bdelete!"
-    vim.cmd "silent! close"
-  elseif #vim.api.nvim_list_wins() > 1 then
-    vim.cmd "silent! close"
-  else
-    vim.notify("Can't Close Window", vim.log.levels.WARN, { title = "Close Window" })
-  end
-end, { desc = "General | Close window", silent = true })
-
--- Add size at the top
+-- Add size
 vim.keymap.set("n", "<C-Up>", "<cmd>resize +2<CR>", { desc = "General | Add size at the top", silent = true })
-
--- Add size at the bottom
 vim.keymap.set("n", "<C-Down>", "<cmd>resize -2<CR>", { desc = "General | Add size at the bottom", silent = true })
+vim.keymap.set( "n", "<C-Right>", "<cmd>vertical resize +2<CR>", { desc = "General | Add size at the left", silent = true })
+vim.keymap.set( "n", "<C-Left>", "<cmd>vertical resize -2<CR>", { desc = "General | Add size at the right", silent = true })
 
--- Add size at the left
-vim.keymap.set(
-  "n",
-  "<C-Right>",
-  "<cmd>vertical resize +2<CR>",
-  { desc = "General | Add size at the left", silent = true }
-)
-
--- Add size at the right
-vim.keymap.set(
-  "n",
-  "<C-Left>",
-  "<cmd>vertical resize -2<CR>",
-  { desc = "General | Add size at the right", silent = true }
-)
-
--- Go to previous buffer
+-- Move between buffers
 vim.keymap.set("n", "H", function()
   require("nvchad.tabufline").prev()
 end, { desc = "General | Go to previous buffer", silent = true })
-
--- Go to next buffer
 vim.keymap.set("n", "L", function()
   require("nvchad.tabufline").next()
 end, { desc = "General | Go to next buffer", silent = true })
 
--- Go to previous tab
-vim.keymap.set("n", "<Left>", "<cmd>tabprevious<CR>", { desc = "General | Go to previous tab", silent = true })
-
--- Go to next tab
-vim.keymap.set("n", "<Right>", "<cmd>tabnext<CR>", { desc = "General | Go to next tab", silent = true })
-
--- New tab
-vim.keymap.set("n", "<Up>", "<cmd>tabnew<CR>", { desc = "General | New tab", silent = true })
-
--- Close tab
-vim.keymap.set("n", "<Down>", "<cmd>tabclose<CR>", { desc = "General | Close tab", silent = true })
-
--- Indent backward
-vim.keymap.set("n", "<", "<<", { desc = "General | Indent backward", silent = true })
-
--- Indent forward
-vim.keymap.set("n", ">", ">>", { desc = "General | Indent forward", silent = true })
-
--- Move the line up
-vim.keymap.set("n", "<A-j>", "<cmd>m .+1<CR>==", { desc = "General | Move the line up", silent = true })
-
--- Move the line down
-vim.keymap.set("n", "<A-k>", "<cmd>m .-2<CR>==", { desc = "General | Move the line down", silent = true })
-
--- Move the line up (Insert Mode)
-vim.keymap.set("i", "<A-j>", "<Esc>:m .+1<CR>==gi", { desc = "General | Move the line up", silent = true })
-
--- Move the line down (Insert Mode)
-vim.keymap.set("i", "<A-k>", "<Esc>:m .-2<CR>==gi", { desc = "General | Move the line down", silent = true })
-
--- Better Down (Visual Mode)
-vim.keymap.set("v", "j", "v:count == 0 ? 'gj' : 'j'", { desc = "General | Better Down", expr = true, silent = true })
-
--- Better Up (Visual Mode)
-vim.keymap.set("v", "k", "v:count == 0 ? 'gk' : 'k'", { desc = "General | Better Up", expr = true, silent = true })
+-- Move text in visual mode
+vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv", { desc = "General | Move the selected text down", silent = true })
+vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv", { desc = "General | Move the selected text up", silent = true })
 
 -- Better Paste (Visual Mode)
 vim.keymap.set("v", "p", '"_dP', { desc = "General | Better Paste", silent = true })
 
--- Indent backward (Visual Mode)
+-- Indentation
 vim.keymap.set("v", "<", "<gv", { desc = "General | Indent backward", silent = true })
-
--- Indent forward (Visual Mode)
 vim.keymap.set("v", ">", ">gv", { desc = "General | Indent forward", silent = true })
 
--- Move the selected text up (Visual Mode)
-vim.keymap.set("v", "<A-j>", "<cmd>m '>+1<CR>gv=gv", { desc = "General | Move the selected text up", silent = true })
-
--- Move the selected text down (Visual Mode)
-vim.keymap.set("v", "<A-k>", "<cmd>m '<-2<CR>gv=gv", { desc = "General | Move the selected text down", silent = true })
+-- Move the selected text (Visual Mode)
+vim.keymap.set("v", "<C-J>", "<cmd>m '>+1<CR>gv=gv", { desc = "General | Move the selected text up", silent = true })
+vim.keymap.set("v", "<C-k>", "<cmd>m '<-2<CR>gv=gv", { desc = "General | Move the selected text down", silent = true })
 
 -- Enter Insert Mode Terminal
 vim.keymap.set("t", "<Esc>", "<C-\\><C-n>", { desc = "Enter Insert Mode", silent = true })
@@ -274,32 +128,22 @@ vim.keymap.set("n", "<leader>nr", function()
   RunCode()
 end, { desc = "Neovim | Run Code", silent = true })
 
--- Clean
-vim.keymap.set("n", "<leader>pc", "<cmd>Lazy clean<cr>", { desc = "Lazy | Clean", silent = true })
+-- Append/insert should match indentation level
+local function match_line(action)
+    local line = vim.fn.getline('.')
+    if #line == 0 or line:match('^%s+$') then
+        return 'cc' -- empty line: change line
+    else
+        return action -- not empty: proceed as normal
+    end
+end
+local function append()
+    return match_line('a')
+end
 
--- Check
-vim.keymap.set("n", "<leader>pC", "<cmd>Lazy check<cr>", { desc = "Lazy | Check", silent = true })
+local function insert()
+    return match_line('i')
+end
+vim.keymap.set('n', 'i', insert, { desc = "General | Improved Insert", silent = true, expr = true })
+vim.keymap.set('n', 'a', append, { desc = "General | Improved Append", silent = true, expr = true })
 
--- Debug
-vim.keymap.set("n", "<leader>pd", "<cmd>Lazy debug<cr>", { desc = "Lazy | Debug", silent = true })
-
--- Install
-vim.keymap.set("n", "<leader>pi", "<cmd>Lazy install<cr>", { desc = "Lazy | Install", silent = true })
-
--- Sync
-vim.keymap.set("n", "<leader>ps", "<cmd>Lazy sync<cr>", { desc = "Lazy | Sync", silent = true })
-
--- Log
-vim.keymap.set("n", "<leader>pl", "<cmd>Lazy log<cr>", { desc = "Lazy | Log", silent = true })
-
--- Home
-vim.keymap.set("n", "<leader>ph", "<cmd>Lazy home<cr>", { desc = "Lazy | Home", silent = true })
-
--- Help
-vim.keymap.set("n", "<leader>pH", "<cmd>Lazy help<cr>", { desc = "Lazy | Help", silent = true })
-
--- Profile
-vim.keymap.set("n", "<leader>pp", "<cmd>Lazy profile<cr>", { desc = "Lazy | Profile", silent = true })
-
--- Update
-vim.keymap.set("n", "<leader>pu", "<cmd>Lazy update<cr>", { desc = "Lazy | Update", silent = true })

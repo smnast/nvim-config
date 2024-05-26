@@ -1,7 +1,7 @@
 -- NOTE: Show Indentlines
 return {
   "lukas-reineke/indent-blankline.nvim",
-  enabled = false,
+  enabled = true,
   event = "User FilePost",
   config = function()
     require("ibl").setup {

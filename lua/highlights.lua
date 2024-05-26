@@ -25,15 +25,4 @@ M.override = {
   NvimTreeRootFolder = { link = "NvimTreeFolderName" },
 }
 
----@type HLTable
-M.add = {
-  WinBar = { link = "Normal" },
-  WinBarNC = { link = "Normal" },
-  DiffviewDiffAdd = { fg = "black", bg = "green" },
-  DiffviewDiffChange = { fg = "black", bg = "green" },
-  DiffviewDiffDelete = { fg = "black", bg = "red" },
-  DiffviewDiffAddAsDelete = { fg = "black", bg = "red" },
-  LspInlayHint = { link = "Comment" },
-}
-
 return M

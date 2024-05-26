@@ -6,8 +6,6 @@ return {
     vim.keymap.set("n", "<leader>li", "<cmd>LspInfo<cr>", { desc = "LSP | Info", silent = true })
     vim.keymap.set("n", "<leader>lR", "<cmd>LspRestart<cr>", { desc = "LSP | Restart", silent = true })
 
-    vim.keymap.set("v", "<leader>lf", "<cmd>Format<cr>", { desc = "LSP | Format", silent = true })
-
     vim.keymap.set("n", "<leader>lh", function()
       if vim.fn.has "nvim-0.10" == 1 then
         vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
@@ -189,21 +187,6 @@ return {
       config = function()
         dofile(vim.g.base46_cache .. "trouble")
       end,
-    },
-    -- NOTE: Displaying References and Definition
-    {
-      "VidocqH/lsp-lens.nvim",
-      init = function()
-        vim.keymap.set(
-          "n",
-          "<leader>ll",
-          "<cmd>LspLensToggle<cr>",
-          { desc = "LspLens | Toggle Code Lens", silent = true }
-        )
-      end,
-      opts = {
-        enable = true,
-      },
     },
   },
 }

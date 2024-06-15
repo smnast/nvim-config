@@ -1,8 +1,11 @@
 local dap = require('dap')
 dap.adapters.codelldb = {
   type = 'server',
-  host = '127.0.0.1',
-  port = 13000 -- 💀 Use the port printed out or specified with `--port`
+  port = 13000, -- 💀 Use the port printed out or specified with `--port`
+  executable = {
+      command = 'codelldb',
+      args = { '--port', '13000' },
+  },
 }
 
 dap.configurations.cpp = {

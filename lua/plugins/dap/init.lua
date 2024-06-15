@@ -79,7 +79,7 @@ return {
         -- end
 
         -- NOTE: Make sure to install the needed files/exectubles through mason
-        require "plugins.dap.settings.cpptools"
+        require "plugins.dap.settings.codelldb"
         require "plugins.dap.settings.netcoredbg"
         require "plugins.dap.settings.godot"
         require "plugins.dap.settings.bash-debug-adapter"

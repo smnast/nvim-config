@@ -2,6 +2,7 @@
 return {
   "neovim/nvim-lspconfig",
   init = function()
+    vim.keymap.set("n", "<leader>la", "<cmd>lua vim.lsp.buf.code_action()<cr>", { desc = "LSP | Code Action", silent = true })
     vim.keymap.set("n", "<leader>lf", "<cmd>Format<cr>", { desc = "LSP | Format", silent = true })
     vim.keymap.set("n", "<leader>li", "<cmd>LspInfo<cr>", { desc = "LSP | Info", silent = true })
     vim.keymap.set("n", "<leader>lR", "<cmd>LspRestart<cr>", { desc = "LSP | Restart", silent = true })
@@ -112,12 +113,6 @@ return {
     {
       "nvimdev/lspsaga.nvim",
       init = function()
-        vim.keymap.set(
-          "n",
-          "<leader>la",
-          "<cmd>Lspsaga code_action<cr>",
-          { desc = "Lspsaga | Code Action", silent = true }
-        )
         vim.keymap.set(
           "n",
           "<leader>lo",

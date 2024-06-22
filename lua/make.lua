@@ -26,6 +26,11 @@ local run_functions = {
     local cmd = string.format('python %s', filename)
     term_exec(cmd)
   end,
+  javascript = function()
+    local filename = vim.fn.expand('%:p')
+    local cmd = string.format('node %s', filename)
+    term_exec(cmd)
+  end,
 }
 
 local function check_script(script)

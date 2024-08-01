@@ -38,7 +38,8 @@ mason_lspconfig.setup {
     -- "intelephense",
 
     -- C/C++
-    -- "clangd",
+    "clangd",
+    "clang-format",
 
     -- CMake
     -- "neocmake",
@@ -50,7 +51,7 @@ mason_lspconfig.setup {
     -- "yamlls",
 
     -- Python
-    -- "pyright",
+    "pyright",
 
     -- Go
     -- "gopls",

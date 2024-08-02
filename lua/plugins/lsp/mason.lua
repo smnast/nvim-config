@@ -39,7 +39,6 @@ mason_lspconfig.setup {
 
     -- C/C++
     "clangd",
-    "clang-format",
 
     -- CMake
     -- "neocmake",

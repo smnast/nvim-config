@@ -12,25 +12,21 @@ return {
   config = function(_, opts)
     dofile(vim.g.base46_cache .. "whichkey")
     require("which-key").setup(opts)
-    require("which-key").register {
-      {
-        ["<leader>"] = {
-          d = { name = "󰃤 Debugger" },
-          r = { name = " Runner" },
-          -- s = { name = "󰔚 Sessions" },
-          f = { name = " Find" },
-          g = { name = "󰊢 Git" },
-          h = { name = " Harpoon" },
-          l = { name = " LSP" },
-          n = { name = " Neovim" },
-          o = { name = " Options" },
-          p = { name = " Plugins" },
-          t = { name = " Terminal" },
-          T = { name = "󰙨 Tests" },
-          v = { name = " Venv" },
-        },
-      },
-    }
+    require("which-key").add({
+      { "<leader>s", group = "Sessions", icon = "󰔚" },
+      { "<leader>T", group = "Tests", icon = "󰙨" },
+      { "<leader>d", group = "Debugging", icon = "" },
+      { "<leader>f", group = "Find", icon = "" },
+      { "<leader>g", group = "Git", icon = "󰊢" },
+      { "<leader>h", group = "Harpoon", icon = "" },
+      { "<leader>l", group = "LSP", icon = "" },
+      { "<leader>n", group = "Neovim", icon = "" },
+      { "<leader>o", group = "Options", icon = "" },
+      { "<leader>p", group = "Plugins", icon = "" },
+      { "<leader>r", group = "Runner", icon = "" },
+      { "<leader>t", group = "Terminal", icon = "" },
+      { "<leader>v", group = "Venv", icon = "" },
+     })
   end,
   keys = {
     "[",

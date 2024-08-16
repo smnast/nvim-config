@@ -1,7 +1,6 @@
 -- NOTE: Sessions
 return {
   "olimorris/persisted.nvim",
-  enabled = false,
   init = function()
     vim.keymap.set("n", "<leader>so", "<cmd>SessionStop<cr>", { desc = "Persisted | Stop", silent = true })
     vim.keymap.set("n", "<leader>sl", "<cmd>SessionLoad<cr>", { desc = "Persisted | Load", silent = true })
